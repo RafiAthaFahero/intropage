@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'dummy_api.dart'; // Import file dummy_api.dart
 
 class RegisterPage extends StatelessWidget {
   final FlutterTts flutterTts = FlutterTts();
@@ -25,19 +26,47 @@ class RegisterPage extends StatelessWidget {
             SizedBox(height: 20),
             TextFormField(
               decoration: InputDecoration(labelText: 'Name'),
+              onTap: () {
+                _speak('Name field selected');
+              },
             ),
             SizedBox(height: 10),
             TextFormField(
               decoration: InputDecoration(labelText: 'Email'),
+              onTap: () {
+                _speak('Email field selected');
+              },
             ),
             SizedBox(height: 10),
             TextFormField(
               decoration: InputDecoration(labelText: 'Password'),
               obscureText: true,
+              onTap: () {
+                _speak('Password field selected');
+              },
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                // Registrasi user
+                String name = 'John Doe';
+                String email = 'john.doe@example.com';
+                String password = 'password123';
+
+                if (DummyApi.registeredUsers.containsKey(email)) {
+                  _speak('Email has been used. Please use another email.');
+                } else {
+                  DummyApi.registerUser(name, email, password);
+
+                  // Cek apakah user terdaftar
+                  bool isRegistered = DummyApi.registeredUsers.containsKey(email);
+                  if (isRegistered) {
+                    _speak('Registration successful');
+                  } else {
+                    _speak('Registration failed');
+                  }
+                }
+              },
               child: Text('Register'),
             ),
             SizedBox(height: 10),
